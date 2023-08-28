@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Day14LabApplication<exam_praa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.sunbeaminfo.Day14LabApplication",
+            "projectName": "exam_praa",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
