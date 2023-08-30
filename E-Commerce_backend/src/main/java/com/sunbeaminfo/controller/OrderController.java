@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,13 +40,35 @@ public class OrderController {
     }
    
     @GetMapping("/get")
-    public ResponseEntity<List<OrderDTO>> getCustomerList(@RequestParam("uuid") Iterable<Long> id) {
-        List<Orders> orders= customerService.getAllOrders(id);
+    public ResponseEntity<List<OrderDTO>> getCustomerList() {
+        List<Orders> orders= customerService.getAllOrders();
         List<OrderDTO> orderDTOs = new ArrayList();
 for (Orders order : orders) {
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setOrder_date(order.getOrderDate());
             orderDTO.setOrder_status(order.isOrderStatus());
+            orderDTO.setOrder_total(order.getOrderTotal());
+            // orderDTO.setPayment_method_id(order.getPayments().getId());
+            orderDTO.setId(order.getId());
+            orderDTO.setAddress_id(order.getAddress().getId());
+            orderDTO.setUser_id(order.getUser().getId());            
+         
+            orderDTOs.add(orderDTO);
+        }
+        return ResponseEntity.ok(orderDTOs);
+    }
+
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<List<OrderDTO>> getCustomerList(@PathVariable Long userId) {
+        List<Orders> orders= customerService.getOrdersByUserId(userId);
+        List<OrderDTO> orderDTOs = new ArrayList();
+for (Orders order : orders) {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setOrder_date(order.getOrderDate());
+            orderDTO.setOrder_status(order.isOrderStatus());
+            orderDTO.setOrder_total(order.getOrderTotal());
+            // orderDTO.setPayment_method_id(order.getPayments().getId());
+            orderDTO.setId(order.getId());
             orderDTO.setAddress_id(order.getAddress().getId());
             orderDTO.setUser_id(order.getUser().getId());            
          
@@ -73,6 +96,22 @@ for (Orders order : orders) {
             } else {
                 return ResponseEntity.badRequest().body("Customer not found with ID: " + id);
             }
+    }
+
+    @PostMapping("/addFromCart/{userId}/{userPaymentId}/{addressId}")
+    public ResponseEntity<String> addProductFromCart(@PathVariable Long userId, @PathVariable Long userPaymentId,@PathVariable Long addressId){
+
+        customerService.orderFromCart(userId, userPaymentId, addressId);
+
+        return ResponseEntity.ok("created");
+    }
+
+    @PostMapping("/product/{userId}/{userPaymentId}/{addressId}/{productId}/{quantity}/{mode}")
+    public ResponseEntity<String> addProduct(@PathVariable Long userId, @PathVariable Long userPaymentId,@PathVariable Long addressId, @PathVariable Long productId ,@PathVariable Integer quantity, @PathVariable String mode){
+
+        customerService.productOrder(userId, userPaymentId, addressId,productId, quantity,mode);
+
+        return ResponseEntity.ok("created");
     }
    
    

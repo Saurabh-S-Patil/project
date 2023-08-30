@@ -18,10 +18,6 @@ public class Orders extends BaseEntity {
 
     private Date orderDate;
 
-    private int paymentMethodId;
-
-
-
     private double orderTotal;
 
     private boolean orderStatus;
@@ -32,9 +28,10 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "address_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id") // This is the foreign key column in Orders table
     private Address address;
+
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderedProducts> orderedProductsList = new ArrayList<>();
@@ -44,7 +41,7 @@ public class Orders extends BaseEntity {
     private UserQueries userQueries; // Reference to the associated UserQueries
 
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Payments payments; // Reference to the associated Payments
 
     // Constructors, getters, setters...
@@ -76,20 +73,6 @@ public class Orders extends BaseEntity {
     public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
-
-
-
-    public int getPaymentMethodId() {
-        return paymentMethodId;
-    }
-
-
-
-    public void setPaymentMethodId(int paymentMethodId) {
-        this.paymentMethodId = paymentMethodId;
-    }
-
-
 
     public double getOrderTotal() {
         return orderTotal;

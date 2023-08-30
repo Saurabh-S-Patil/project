@@ -1,10 +1,13 @@
 package com.sunbeaminfo.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -24,8 +27,8 @@ public class Address extends BaseEntity {
     private Set<User> users = new HashSet<>();
 
 
-    @OneToOne(mappedBy = "address")
-    private Orders order;
+    @OneToMany(mappedBy = "address") // This refers to the "address" field in Orders class
+    private List<Orders> orders = new ArrayList<>();
 
 
 

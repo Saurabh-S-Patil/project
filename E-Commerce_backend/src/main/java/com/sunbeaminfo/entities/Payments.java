@@ -1,7 +1,9 @@
 package com.sunbeaminfo.entities;
 
 import java.util.Calendar;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,7 +14,14 @@ import javax.persistence.OneToOne;
 
 import com.sunbeaminfo.enums.Mode;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Payments extends BaseEntity {
     
     @Enumerated(EnumType.STRING)
@@ -22,16 +31,24 @@ public class Payments extends BaseEntity {
 
     private boolean paymentStatus;
 
-    private Calendar timeStamp;
+    private Date timeStamp;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_id")
     private Orders order;
+
+    // @OneToOne(fetch = FetchType.LAZY,mappedBy = "payments", cascade = CascadeType.ALL)
+    // private UserPaymentDetails userPaymentDetails;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_payment_details_id") // This is the foreign key column
+    private UserPaymentDetails userPaymentDetails;
+
 
     // Constructors, getters, setters...
 
@@ -76,11 +93,11 @@ public class Payments extends BaseEntity {
         this.paymentStatus = paymentStatus;
     }
 
-    public Calendar getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Calendar timeStamp) {
+    public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 

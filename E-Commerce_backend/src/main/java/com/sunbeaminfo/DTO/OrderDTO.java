@@ -13,8 +13,8 @@ private Date order_date;
 private boolean order_status;
 @Column(nullable = false)
 private double order_total;
-@Column(nullable = false)
-private int payment_method_id;
+// @Column(nullable = false)
+// private int payment_method_id;
 
 public Long getId() {
 return id;
@@ -40,12 +40,12 @@ return order_total;
 public void setOrder_total(double order_total) {
 this.order_total = order_total;
 }
-public int getPayment_method_id() {
-return payment_method_id;
-}
-public void setPayment_method_id(int payment_method_id) {
-this.payment_method_id = payment_method_id;
-}
+// public int getPayment_method_id() {
+// return payment_method_id;
+// }
+// public void setPayment_method_id(int payment_method_id) {
+// this.payment_method_id = payment_method_id;
+// }
 public long getAddress_id() {
 return address_id;
 }

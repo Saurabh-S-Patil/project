@@ -1,7 +1,14 @@
 package com.sunbeaminfo.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne; 
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference; 
 
 @Entity
 public class UserPaymentDetails extends BaseEntity {
@@ -10,12 +17,21 @@ public class UserPaymentDetails extends BaseEntity {
 
     private String bankName;
 
-    private int cardNo;
+    private double cardNo;
 
     private int expiryDate;
 
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+
+    @OneToMany(mappedBy = "userPaymentDetails")
+    private List<Payments> paymentsList = new ArrayList<>();
+
+
+
+
 
     public String getAccountHolderName() {
         return accountHolderName;
@@ -33,11 +49,11 @@ public class UserPaymentDetails extends BaseEntity {
         this.bankName = bankName;
     }
 
-    public int getCardNo() {
+    public double getCardNo() {
         return cardNo;
     }
 
-    public void setCardNo(int cardNo) {
+    public void setCardNo(double cardNo) {
         this.cardNo = cardNo;
     }
 

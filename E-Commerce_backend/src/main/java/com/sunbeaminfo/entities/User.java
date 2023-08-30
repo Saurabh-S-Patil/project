@@ -65,6 +65,10 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_roles_user")),
             inverseJoinColumns = @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_user_roles_role")))
     private Set<UserRoleEntity> roles = new HashSet<>();
+ 
+
+    // @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    // private Set<PaymentsDetails> paymentsDetails = new HashSet<>();
 
 
 	@ManyToMany
