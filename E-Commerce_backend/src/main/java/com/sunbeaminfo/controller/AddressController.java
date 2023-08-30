@@ -1,5 +1,6 @@
 package com.sunbeaminfo.controller;
 
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sunbeaminfo.DTO.AddressDTO;
 import com.sunbeaminfo.dao.UserRepository;
 import com.sunbeaminfo.entities.Address;
 import com.sunbeaminfo.entities.User;
@@ -36,7 +38,7 @@ public Address addAddress(@RequestBody Address address , @RequestParam("uuid") L
 return addressService.createAddress(address,userId);
 }
 @GetMapping("get")
-public Set<Address> getAddresses(@RequestParam("uuid") Long id){
+public List<AddressDTO> getAddresses(@RequestParam("uuid") Long id){
   return addressService.getAllAddressByUserId(id);
 }
 

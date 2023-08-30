@@ -3,6 +3,7 @@ package com.sunbeaminfo.entities;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -17,7 +18,7 @@ public class Review extends BaseEntity {
     private OrderedProducts orderedProduct; // Reference to the associated OrderedProducts
 
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // This is the foreign key column in the Review table
     private User user; // Reference to the associated User
 

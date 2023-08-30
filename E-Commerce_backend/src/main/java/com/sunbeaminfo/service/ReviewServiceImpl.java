@@ -1,5 +1,7 @@
 package com.sunbeaminfo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +25,8 @@ public class ReviewServiceImpl {
     private UserRepository userRepository;
 
     @Autowired
-    private OrderedProductsRepository orderedProductsRepository; 
-    
+    private OrderedProductsRepository orderedProductsRepository;
+   
 
     public boolean createReview(ReviewDTO body, Long userId, Long orderedProductId){
 
@@ -36,10 +38,24 @@ public class ReviewServiceImpl {
         review.setOrderedProduct(orderedProduct);
         review.setRating(body.getRating());
         review.setUser(user);
-        reviewRepository.save(review);
-
+      //  reviewRepository.save(review);
+        List<Review> reviewList = user.getReviewList();
+        reviewList.add(review);
+        userRepository.save(user);
         return true;
     }
+   
+    public boolean deleteReview(Long reviewId,Long userId){
+        User user = userRepository.findById(userId).get();
+        Review review = reviewRepository.getById(reviewId);
+        reviewRepository.deleteById(reviewId);
+        List<Review> reviewList = user.getReviewList();
+        reviewList.remove(review);
+        userRepository.save(user);
+        return true;
+    }
+   
+   
 
 
 }

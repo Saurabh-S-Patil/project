@@ -83,8 +83,11 @@ public class User implements UserDetails {
     private List<Orders> ordersList = new ArrayList<>();
 
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Review review; // Reference to the associated Review
+    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // private Review review; // Reference to the associated Review
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UserQueries> userQueriesList = new ArrayList<>();
@@ -129,15 +132,7 @@ public class User implements UserDetails {
         userQuery.setUser(null);
     }
 
-    public Review getReview() {
-        return review;
-    }
-
-    public void setReview(Review review) {
-        this.review = review;
-    }
-
-
+   
     public List<Orders> getOrdersList() {
         return ordersList;
     }
