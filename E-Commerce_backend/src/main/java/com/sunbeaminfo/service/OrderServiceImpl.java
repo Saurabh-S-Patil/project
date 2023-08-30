@@ -138,6 +138,7 @@ public boolean orderFromCart(Long userId, Long userPaymentId, Long addressId){
     order.setPayments(payments);
     orderRepository.save(order);
     cart.getProductsList().removeAll(cartProducts);
+    cart.setTotalAmmount(0);
     cartRepository.save(cart);
     return true;
 }

@@ -141,13 +141,14 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{userId}/addProduct/{productId}")
+    @PostMapping("/{userId}/addProduct/{productId}/{quantity}")
     public ResponseEntity<String> addProductToCart(
             @PathVariable Long userId,
-            @PathVariable Long productId) {
+            @PathVariable Long productId,
+            @PathVariable Integer quantity) {
 
         try {
-            cartService.addProductToCart( userId,productId);
+            cartService.addProductToCart( userId,productId,quantity);
             return ResponseEntity.ok("Product added to cart successfully.");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();

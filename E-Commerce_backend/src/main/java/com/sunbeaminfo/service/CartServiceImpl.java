@@ -86,7 +86,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Transactional
-    public CartDTO addProductToCart( Long userId,Long productId) {
+    public CartDTO addProductToCart( Long userId,Long productId,Integer quantity) {
      
         Products product = productRepository.findById(productId).orElseThrow(() -> new EntityNotFoundException("Product not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -94,9 +94,10 @@ public class CartServiceImpl implements CartService {
         CartProducts cartProduct = new CartProducts();
         cartProduct.setProduct(product);
         cartProduct.setCart(cart);
+        cart.setTotalAmmount(cart.getTotalAmmount()+product.getPrice()*quantity);
         // cartProduct.setColor(color);
         cartProduct.setPrice(product.getPrice());
-        cartProduct.setQuantity(0);
+        cartProduct.setQuantity(quantity);
         Set<CartProducts> productsList = cart.getProductsList();
         productsList.add(cartProduct);
 
