@@ -120,7 +120,7 @@ public CartProductResponse getAllProductsInCart(Long userId) {
     cartProductResponse.setId(cart.getId());
 
     Set<CartProductsDTO> cartProductDTOs = new HashSet<>();
-
+    
     for (CartProducts cartProduct : cart.getProductsList()) {
         CartProductsDTO cartProductDTO = new CartProductsDTO();
         cartProductDTO.setId(cartProduct.getId()); // Assuming you want to set the cart product's ID
@@ -135,6 +135,7 @@ public CartProductResponse getAllProductsInCart(Long userId) {
         cartProductDTOs.add(cartProductDTO);
     }
 
+    cartProductResponse.setTotal(cart.getTotalAmmount());
     cartProductResponse.setProductsList(cartProductDTOs);
 
     return cartProductResponse;

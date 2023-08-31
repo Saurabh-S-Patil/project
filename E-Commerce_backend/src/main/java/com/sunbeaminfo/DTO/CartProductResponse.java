@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class CartProductResponse {
     private Long id;
     private Set<CartProductsDTO> productsList;
+    private double total;
 }
