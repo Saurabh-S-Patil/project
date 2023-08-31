@@ -44,7 +44,8 @@ public class ProductDTO {
 
     private String productName;
 
-    private double price;   
+    private double price;  
+    private double total; 
 
     private int unitStock;
 
@@ -54,4 +55,6 @@ public class ProductDTO {
     private String productImage;
 
     private String company;
+
+    private int quantity;
 }

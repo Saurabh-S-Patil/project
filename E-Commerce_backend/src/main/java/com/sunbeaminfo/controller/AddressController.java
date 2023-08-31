@@ -1,11 +1,7 @@
 package com.sunbeaminfo.controller;
 
 import java.util.List;
-import java.util.Set;
-
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sunbeaminfo.DTO.AddressDTO;
-import com.sunbeaminfo.dao.UserRepository;
 import com.sunbeaminfo.entities.Address;
-import com.sunbeaminfo.entities.User;
 import com.sunbeaminfo.service.AddressService;
-import com.sunbeaminfo.service.UserService;
 @RestController
 @RequestMapping("/address/")
 public class AddressController {

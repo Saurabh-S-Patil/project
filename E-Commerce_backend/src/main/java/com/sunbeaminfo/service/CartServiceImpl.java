@@ -76,6 +76,7 @@ public class CartServiceImpl implements CartService {
         cartDTO.setId(cart.getId());
         cartDTO.setUserId(cart.getUser().getId());
         cartDTO.setProductsList(cart.getProductsList());
+        // cartDTO.setQuantity(cart.getTotalAmmount());
         return cartDTO;
     }
 
@@ -126,6 +127,9 @@ public CartProductResponse getAllProductsInCart(Long userId) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(cartProduct.getProduct().getId());
         productDTO.setProductName(cartProduct.getProduct().getProductName());
+        productDTO.setQuantity(cartProduct.getQuantity());
+        productDTO.setTotal(cartProduct.getPrice()*cartProduct.getQuantity());
+        productDTO.setPrice(cartProduct.getPrice());
         // Set other product properties here
         cartProductDTO.setProduct(productDTO);
         cartProductDTOs.add(cartProductDTO);
