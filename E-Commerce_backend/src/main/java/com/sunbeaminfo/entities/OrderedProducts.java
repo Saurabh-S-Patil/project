@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class OrderedProducts extends BaseEntity {
     
@@ -18,12 +20,13 @@ public class OrderedProducts extends BaseEntity {
 
     private Calendar timeStamp;
 
-     @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Orders order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
+    @JsonManagedReference
     private Products product;
 
     @OneToOne(mappedBy = "orderedProduct", fetch = FetchType.LAZY)

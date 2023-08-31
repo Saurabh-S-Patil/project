@@ -57,12 +57,12 @@ for (Orders order : orders) {
         }
         return ResponseEntity.ok(orderDTOs);
     }
-
+    
     @GetMapping("/get/{userId}")
     public ResponseEntity<List<OrderDTO>> getCustomerList(@PathVariable Long userId) {
         List<Orders> orders= customerService.getOrdersByUserId(userId);
         List<OrderDTO> orderDTOs = new ArrayList();
-for (Orders order : orders) {
+        for (Orders order : orders) {
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setOrder_date(order.getOrderDate());
             orderDTO.setOrder_status(order.isOrderStatus());

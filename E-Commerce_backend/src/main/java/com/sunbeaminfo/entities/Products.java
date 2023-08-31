@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
+// import org.springframework.session.Session;
+
 
 import com.sunbeaminfo.enums.Category;
 
@@ -90,7 +92,5 @@ public class Products extends BaseEntity {
     public void setCompany(String company) {
         this.company = company;
     }
-
-    
 
 }
