@@ -164,6 +164,7 @@ public boolean removeProductFromCart(Long userId, Long productId) {
 
     if (cartProductToRemove != null) {
         productsList.remove(cartProductToRemove);
+        cart.setTotalAmmount(cart.getTotalAmmount()-cartProductToRemove.getPrice()*cartProductToRemove.getQuantity());
         cartRepository.save(cart);
         return true;
     }
