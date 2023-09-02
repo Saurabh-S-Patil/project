@@ -1,6 +1,7 @@
 package com.sunbeaminfo.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.sunbeaminfo.entities.User;
+import com.sunbeaminfo.CustomExceptions.UserNotFoundException;
 import com.sunbeaminfo.DTO.CartDTO;
 import com.sunbeaminfo.DTO.LoginResponceDTO;
 import com.sunbeaminfo.DTO.RegistrationDTO;
@@ -66,20 +68,45 @@ public class AuthenticationService {
         return response;
     }
 
-    public LoginResponceDTO loginUser(String username, String password){
+    // public LoginResponceDTO loginUser(String username, String password){
 
-        try{
+    //     try{
+    //         Authentication auth = authenticationManager.authenticate(
+    //             new UsernamePasswordAuthenticationToken(username, password)
+    //         );
+
+    //         String token = tokenService.generateJwt(auth);
+    //         Optional<User> userOptional = userRepository.findByEmail(username);
+    //     if (userOptional.isEmpty()) {
+    //         throw new UserNotFoundException("User is not present with this credentials !");
+    //     }
+
+    //     return new LoginResponceDTO(userOptional.get(), token, "success");
+
+    //     } catch(AuthenticationException e){
+    //         return new LoginResponceDTO(null, "","fail");
+    //     }
+    // }
+
+    public LoginResponceDTO loginUser(String username, String password) {
+        try {
+            Optional<User> userOptional = userRepository.findByEmail(username);
+            if (userOptional.isEmpty()) {
+                throw new UserNotFoundException("User is not present with this credentials !");
+            }
+    
             Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
             );
-
+    
             String token = tokenService.generateJwt(auth);
-
-            return new LoginResponceDTO(userRepository.findByEmail(username).get(), token,"success");
-
-        } catch(AuthenticationException e){
-            return new LoginResponceDTO(null, "","fail");
+    
+            return new LoginResponceDTO(userOptional.get(), token, "success");
+    
+        } catch (AuthenticationException e) {
+            return new LoginResponceDTO(null, "", "fail");
         }
     }
+    
 
 }

@@ -19,9 +19,11 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
@@ -33,7 +35,11 @@ import com.sunbeaminfo.Utils.RSAKeyProperties;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import javax.servlet.MultipartConfigElement;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 
 @Configuration
 public class SecurityConfiguration {
@@ -119,5 +125,23 @@ public FilterRegistrationBean<CorsFilter> corsFilter() {
     bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
     return bean;
 }
+
+
+@Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        // Set your preferred configurations
+        // For example:
+        factory.setMaxFileSize(DataSize.ofMegabytes(10)); // Set maximum file size to 10 MB
+    factory.setMaxRequestSize(DataSize.ofMegabytes(10));
+        return factory.createMultipartConfig();
+    }
+
+    @Bean
+    public ServletRegistrationBean<DispatcherServlet> dispatcherRegistration(DispatcherServlet dispatcherServlet) {
+        ServletRegistrationBean<DispatcherServlet> registrationBean = new ServletRegistrationBean<>(dispatcherServlet);
+        registrationBean.setMultipartConfig(multipartConfigElement());
+        return registrationBean;
+    }
     
 }
